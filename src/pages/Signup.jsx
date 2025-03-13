@@ -11,7 +11,7 @@ const Signup = () => {
 
     const handleSubmit = (e)=>{
         e.preventDefault();
-        axios.post('https://hostingexp-1.onrender.com/register', {name, email})
+        axios.post('https://hostingexp-2.onrender.com/register', {name, email})
         .then(res => {
             console.log(res);
             navigate('/login')
