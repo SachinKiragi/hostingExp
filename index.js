@@ -6,8 +6,12 @@ import UserModel from './models/user.js';
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 
+app.use(cors({
+    origin: '*', // Allow all origins (or specify your frontend URL)
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type']
+}));
 
 mongoose.connect('mongodb+srv://sachin:sachin@cluster0.b1wcb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0').then(() => {
     console.log('Connected to MongoDB');
