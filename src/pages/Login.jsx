@@ -8,7 +8,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/login', { email })
+    axios.post('https://hostingexp-1.onrender.com/login', { email })
       .then(res => {
         console.log(res);
         if(res.data=="Success"){
