@@ -4,21 +4,30 @@ import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false); // To disable button during request
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post('https://hostingexp-2.onrender.com/login', { email })
-      .then(res => {
-        console.log(res);
-        if(res.data=="Success"){
-            navigate('/home'); // Navigate to the dashboard or desired route
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        alert('Invalid email');
-      });
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await axios.post('https://hostingexp-2.onrender.com/login', { email: email.trim() });
+      console.log(res);
+
+      if (res.data === "Success") {
+        navigate('/home'); // Navigate to the home page
+      } else {
+        setError('Invalid email or user not found');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,8 +52,9 @@ const Login = () => {
             required 
           />
         </div>
-        <button type="submit" style={styles.loginButton}>
-          Login
+        {error && <p style={styles.errorText}>{error}</p>}
+        <button type="submit" style={styles.loginButton} disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
         </button>
         <div style={styles.signupContainer}>
           <h4 style={styles.signupText}>New to the platform?</h4>
@@ -112,6 +122,12 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
     fontSize: '16px',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: '14px',
+    marginBottom: '1rem',
+    textAlign: 'center',
   },
   signupContainer: {
     marginTop: '1.5rem',

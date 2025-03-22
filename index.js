@@ -13,11 +13,10 @@ app.use(cors({
     allowedHeaders: ['Content-Type']
 }));
 
-mongoose.connect('mongodb+srv://sachin:sachin@cluster0.b1wcb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0').then(() => {
-    console.log('Connected to MongoDB');
-}).catch(err => {
-    console.error('Error connecting to MongoDB:', err);
-});
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('Error connecting to MongoDB:', err));
+
 
 
 app.post('/register', (req, res)=>{
@@ -41,6 +40,7 @@ app.post('/login', async(req, res)=>{
 
 
 
-app.listen(3001, () => {
-    console.log("Server is running on port 3001");
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
