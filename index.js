@@ -38,6 +38,11 @@ app.post('/login', async(req, res)=>{
     })
 })
 
+app.get('/login', (req, res) => {
+    res.send('Login endpoint is working. Use POST to log in.');
+  });
+  
+
 
 
 const PORT = process.env.PORT || 3001;
